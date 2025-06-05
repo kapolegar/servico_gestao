@@ -1,5 +1,5 @@
 const { IClienteRepository } = require('../../domain/repositories/IClienteRepository');
-const { Cliente } = require('../../domain/entities/Plano');
+const { Cliente } = require('../../domain/entities/Cliente');
 
 class SQLiteClienteRepository extends IClienteRepository {
   constructor(database) {

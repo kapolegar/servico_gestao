@@ -1,5 +1,5 @@
 const { IAssinaturaRepository } = require('../../domain/repositories/IAssinaturaRepository');
-const { Assinatura } = require('../../domain/entities/Plano');
+const { Assinatura } = require('../../domain/entities/Assinatura');
 
 class SQLiteAssinaturaRepository extends IAssinaturaRepository {
   constructor(database) {

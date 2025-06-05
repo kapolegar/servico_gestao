@@ -1,0 +1,510 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "seu_nome_Desenvolvimento_de_Sistemas_backend_Fase-1",
+		"description": "Collection para testar o ServicoGestao - Sistema de Controle de Planos de Operadora\n\nFase 1: Implementação do serviço principal com Arquitetura Limpa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Verificar se o serviço está funcionando"
+			},
+			"response": []
+		},
+		{
+			"name": "1. Listar Clientes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/clientes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"clientes"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar todos os clientes cadastrados"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gestao/clientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"clientes"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"codigo\": 1,\n    \"nome\": \"João Silva\",\n    \"email\": \"joao.silva@email.com\"\n  },\n  {\n    \"codigo\": 2,\n    \"nome\": \"Maria Santos\",\n    \"email\": \"maria.santos@email.com\"\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "2. Listar Planos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/planos",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"planos"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar todos os planos cadastrados"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gestao/planos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"planos"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"codigo\": 1,\n    \"nome\": \"Plano Básico\",\n    \"custoMensal\": 29.99,\n    \"data\": \"2024-01-01\",\n    \"descricao\": \"Internet banda larga 50MB, sem TV\"\n  },\n  {\n    \"codigo\": 2,\n    \"nome\": \"Plano Premium\",\n    \"custoMensal\": 99.99,\n    \"data\": \"2024-01-01\",\n    \"descricao\": \"Internet fibra 200MB, TV completa\"\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "3. Criar Assinatura",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"codCli\": 1,\n  \"codPlano\": 1\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/gestao/assinaturas",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"assinaturas"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Criar uma nova assinatura"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codCli\": 1,\n  \"codPlano\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/gestao/assinaturas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"assinaturas"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"codigo\": 6,\n  \"codPlano\": 1,\n  \"codCli\": 1,\n  \"inicioFidelidade\": \"2024-06-03\",\n  \"fimFidelidade\": \"2025-06-03\",\n  \"dataUltimoPagamento\": null,\n  \"custoFinal\": 24.99,\n  \"descricao\": \"Desconto de fidelidade aplicado\"\n}"
+				}
+			]
+		},
+		{
+			"name": "4. Atualizar Custo Mensal do Plano",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"custoMensal\": 39.99\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/gestao/planos/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"planos",
+						"1"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Atualizar o custo mensal de um plano"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"custoMensal\": 39.99\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/gestao/planos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"planos",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"codigo\": 1,\n  \"nome\": \"Plano Básico\",\n  \"custoMensal\": 39.99,\n  \"data\": \"2024-06-03\",\n  \"descricao\": \"Internet banda larga 50MB, sem TV\"\n}"
+				}
+			]
+		},
+		{
+			"name": "5. Listar Assinaturas - TODOS",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/assinaturas/TODOS",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"assinaturas",
+						"TODOS"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar todas as assinaturas"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Listar Assinaturas - ATIVOS",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/assinaturas/ATIVOS",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"assinaturas",
+						"ATIVOS"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar apenas assinaturas ativas"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gestao/assinaturas/ATIVOS",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"assinaturas",
+								"ATIVOS"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"codigoAssinatura\": 1,\n    \"codigoCliente\": 1,\n    \"codigoPlano\": 1,\n    \"dataInicio\": \"2024-01-15\",\n    \"dataFim\": \"2025-01-15\",\n    \"status\": \"ATIVO\"\n  },\n  {\n    \"codigoAssinatura\": 2,\n    \"codigoCliente\": 2,\n    \"codigoPlano\": 2,\n    \"dataInicio\": \"2024-02-01\",\n    \"dataFim\": \"2025-02-01\",\n    \"status\": \"ATIVO\"\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "5. Listar Assinaturas - CANCELADOS",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/assinaturas/CANCELADOS",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"assinaturas",
+						"CANCELADOS"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar apenas assinaturas canceladas"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Assinaturas do Cliente",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/assinaturascliente/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"assinaturascliente",
+						"1"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar assinaturas de um cliente específico"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gestao/assinaturascliente/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"assinaturascliente",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"codigoAssinatura\": 1,\n    \"codigoCliente\": 1,\n    \"codigoPlano\": 1,\n    \"dataInicio\": \"2024-01-15\",\n    \"dataFim\": \"2025-01-15\",\n    \"status\": \"ATIVO\"\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "7. Assinaturas do Plano",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/gestao/assinaturasplano/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"gestao",
+						"assinaturasplano",
+						"1"
+					]
+				},
+				"description": "Endpoint obrigatório FASE 1: Listar assinaturas de um plano específico"
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gestao/assinaturasplano/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"gestao",
+								"assinaturasplano",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"codigoAssinatura\": 1,\n    \"codigoCliente\": 1,\n    \"codigoPlano\": 1,\n    \"dataInicio\": \"2024-01-15\",\n    \"dataFim\": \"2025-01-15\",\n    \"status\": \"ATIVO\"\n  },\n  {\n    \"codigoAssinatura\": 4,\n    \"codigoCliente\": 4,\n    \"codigoPlano\": 1,\n    \"dataInicio\": \"2023-06-01\",\n    \"dataFim\": \"2024-05-01\",\n    \"status\": \"CANCELADO\"\n  }\n]"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

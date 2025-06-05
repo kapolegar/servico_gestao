@@ -12,14 +12,14 @@ function createGestaoRoutes(gestaoController) {
     await gestaoController.listarPlanos(req, res);
   });
 
-  // POST /gestao/assinaturas
-  router.post('/assinaturas', async (req, res) => {
-    await gestaoController.criarAssinatura(req, res);
-  });
-
   // PATCH /gestao/planos/:idPlano
   router.patch('/planos/:idPlano', async (req, res) => {
     await gestaoController.atualizarCustoPlano(req, res);
+  });
+
+  // POST /gestao/assinaturas
+  router.post('/assinaturas', async (req, res) => {
+    await gestaoController.criarAssinatura(req, res);
   });
 
   // GET /gestao/assinaturas/:tipo

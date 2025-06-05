@@ -5,6 +5,10 @@ class ListarAssinaturasPorPlanoUseCase {
   }
 
   async execute(codPlano) {
+    // Verificar se código do plano existe
+    if (!codPlano) {
+            throw new Error('Código do plano é obrigatório');
+        }
     // Validar se plano existe
     const plano = await this.planoRepository.findById(codPlano);
     if (!plano) {
@@ -22,6 +26,19 @@ class ListarAssinaturasPorPlanoUseCase {
       status: assinatura.getStatus()
     }));
   }
+
+  _determinarStatus(assinatura) {
+        const agora = new Date();
+        const dataUltimoPagamento = new Date(assinatura.dataUltimoPagamento);
+        const diasSemPagamento = Math.floor((agora - dataUltimoPagamento) / (1000 * 60 * 60 * 24));
+        
+        // Se passou mais de 30 dias sem pagamento, está cancelado
+        if (diasSemPagamento > 30) {
+            return 'CANCELADO';
+        }
+        
+        return 'ATIVO';
+    }
 }
 
 module.exports = { ListarAssinaturasPorPlanoUseCase };

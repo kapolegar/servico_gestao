@@ -1,19 +1,15 @@
 const { Database } = require('../database/database');
-const { 
-  SQLitePlanoRepository, 
-  SQLiteClienteRepository, 
-  SQLiteAssinaturaRepository 
-} = require('../repositories/SQLitePlanoRepository');
+const { SQLitePlanoRepository } = require('../repositories/SQLitePlanoRepository');
+const { SQLiteClienteRepository } = require('../repositories/SQLiteClienteRepository');
+const { SQLiteAssinaturaRepository } = require('../repositories/SQLiteAssinaturaRepository');
 
-const {
-  ListarClientesUseCase,
-  ListarPlanosUseCase,
-  CriarAssinaturaUseCase,
-  AtualizarCustoPlanoUseCase,
-  ListarAssinaturasPorTipoUseCase,
-  ListarAssinaturasPorClienteUseCase,
-  ListarAssinaturasPorPlanoUseCase
-} = require('../../application/usecases/ListarClientesUseCase');
+const { ListarClientesUseCase } = require('../../application/usecases/ListarClientesUseCase');
+const { ListarPlanosUseCase } = require('../../application/usecases/ListarPlanosUseCase');
+const { CriarAssinaturaUseCase } = require('../../application/usecases/CriarAssinaturaUseCase');
+const { AtualizarCustoPlanoUseCase } = require('../../application/usecases/AtualizarCustoPlanoUseCase');
+const { ListarAssinaturasPorTipoUseCase } = require('../../application/usecases/ListarAssinaturasPorTipoUseCase');
+const { ListarAssinaturasPorClienteUseCase } = require('../../application/usecases/ListarAssinaturasPorClienteUseCase');
+const { ListarAssinaturasPorPlanoUseCase } = require('../../application/usecases/ListarAssinaturasPorPlanoUseCase');
 
 const { GestaoController } = require('../../presentation/controllers/GestaoController');
 

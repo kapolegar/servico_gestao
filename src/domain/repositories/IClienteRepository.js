@@ -20,4 +20,4 @@ class IClienteRepository {
   }
 }
 
-module.exports = { IAssinaturaRepository };
+module.exports = { IClienteRepository };

@@ -77,6 +77,7 @@ src/
 ### Pré-requisitos
 * Node.js v16 ou superior
 * npm ou yarn
+* Banco de dados SQLite3
 
 ### 1. Instalar dependências
 
@@ -98,7 +99,7 @@ PORT=3000
 NODE_ENV=development
 
 # Configurações do banco de dados
-DB_PATH=./database/operadora.db
+DB_PATH=./database/sistema_planos.db
 DB_TYPE=sqlite
 
 # Configurações de logging
@@ -132,7 +133,6 @@ Resposta esperada:
   "status": "OK",
   "service": "ServicoGestao",
   "timestamp": "2024-06-03T12:00:00.000Z",
-  "database": "connected"
 }
 ```
 
@@ -143,76 +143,16 @@ Resposta esperada:
 
 ### Clientes
 * `GET /gestao/clientes` - Listar todos os clientes
-* `GET /gestao/clientes/:id` - Buscar cliente por ID
-* `POST /gestao/clientes` - Criar novo cliente
-* `PUT /gestao/clientes/:id` - Atualizar cliente
-* `DELETE /gestao/clientes/:id` - Remover cliente
 
 ### Planos
 * `GET /gestao/planos` - Listar todos os planos
-* `GET /gestao/planos/:id` - Buscar plano por ID
-* `POST /gestao/planos` - Criar novo plano
-* `PUT /gestao/planos/:id` - Atualizar plano
-* `PATCH /gestao/planos/:id/status` - Alterar status do plano (ativo/inativo)
-* `DELETE /gestao/planos/:id` - Remover plano
+* `GET /gestao/planos/:idPlano` - Buscar plano por ID
 
-### Contratos
-* `GET /gestao/contratos` - Listar todos os contratos
-* `GET /gestao/contratos/:id` - Buscar contrato por ID
-* `GET /gestao/contratos/cliente/:clienteId` - Listar contratos de um cliente
-* `POST /gestao/contratos` - Criar novo contrato
-* `PUT /gestao/contratos/:id` - Atualizar contrato
-* `PATCH /gestao/contratos/:id/status` - Alterar status do contrato
-* `DELETE /gestao/contratos/:id` - Cancelar contrato
-
-## Exemplos de Uso da API
-
-### Criar Cliente
-```bash
-curl -X POST http://localhost:3000/gestao/clientes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "João Silva",
-    "cpf": "12345678901",
-    "email": "joao@email.com",
-    "telefone": "(11) 99999-9999"
-  }'
-```
-
-### Criar Plano
-```bash
-curl -X POST http://localhost:3000/gestao/planos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nome": "Plano Premium",
-    "descricao": "Plano com benefícios premium",
-    "valor": 99.90,
-    "tipo": "pos-pago",
-    "franquiaDados": 20480,
-    "franquiaVoz": 300
-  }'
-```
-
-### Criar Contrato
-```bash
-curl -X POST http://localhost:3000/gestao/contratos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "clienteId": 1,
-    "planoId": 1,
-    "dataInicio": "2024-06-01",
-    "dataVencimento": 15
-  }'
-```
-
-### Alterar Status do Plano
-```bash
-curl -X PATCH http://localhost:3000/gestao/planos/1/status \
-  -H "Content-Type: application/json" \
-  -d '{
-    "status": "inativo"
-  }'
-```
+### Assinaturas
+* `GET /gestao/assinaturas` - Listar todas as assinaturas
+* `GET /assinaturas/:tipo` - Retorna a lista com todas as assinaturas de um determinado tipo [TODOS|ATIVOS|CANCELADOS]
+* `GET /gestao/assinaturascliente/:codcli` - Retorna a lista das assinaturas do cliente informado
+* `POST /gestao/assinaturasplano/:codplano` - Retorna a lista de assinaturas de um plano
 
 ## Scripts Disponíveis
 
@@ -250,46 +190,36 @@ npm run format
 ### Tabela: clientes
 ```sql
 CREATE TABLE clientes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome VARCHAR(255) NOT NULL,
-    cpf VARCHAR(11) UNIQUE NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    telefone VARCHAR(20),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    codigo INTEGER PRIMARY KEY,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE
 );
 ```
 
 ### Tabela: planos
 ```sql
 CREATE TABLE planos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome VARCHAR(255) NOT NULL,
-    descricao TEXT,
-    valor DECIMAL(10,2) NOT NULL,
-    tipo VARCHAR(50) NOT NULL, -- 'pre-pago' ou 'pos-pago'
-    franquia_dados INTEGER, -- em MB
-    franquia_voz INTEGER, -- em minutos
-    status VARCHAR(20) DEFAULT 'ativo',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    codigo INTEGER PRIMARY KEY,
+    nome TEXT NOT NULL,
+    custo_mensal REAL NOT NULL,
+    data TEXT NOT NULL,
+    descricao TEXT
 );
 ```
 
-### Tabela: contratos
+### Tabela: assinaturas
 ```sql
-CREATE TABLE contratos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    cliente_id INTEGER NOT NULL,
-    plano_id INTEGER NOT NULL,
-    data_inicio DATE NOT NULL,
-    data_fim DATE,
-    data_vencimento INTEGER NOT NULL, -- dia do mês
-    status VARCHAR(20) DEFAULT 'ativo',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-    FOREIGN KEY (plano_id) REFERENCES planos(id)
+CREATE TABLE assinaturas (
+    codigo INTEGER PRIMARY KEY,
+    cod_plano INTEGER NOT NULL,
+    cod_cli INTEGER NOT NULL,
+    inicio_fidelidade TEXT NOT NULL,
+    fim_fidelidade TEXT NOT NULL,
+    data_ultimo_pagamento TEXT,
+    custo_final REAL NOT NULL,
+    descricao TEXT,
+    FOREIGN KEY (cod_plano) REFERENCES planos (codigo),
+    FOREIGN KEY (cod_cli) REFERENCES clientes (codigo)
 );
 ```
 
@@ -333,56 +263,7 @@ O sistema utiliza diferentes níveis de log:
 
 ### Exemplo de logs
 ```
-2024-06-03 12:00:00 [INFO] Servidor iniciado na porta 3000
-2024-06-03 12:01:00 [INFO] Cliente criado com ID: 1
-2024-06-03 12:02:00 [ERROR] Erro ao buscar cliente: Cliente não encontrado
+2024-06-03 12:00:00 [INFO] Servidor rodando na porta 3000
+2024-06-03 12:01:00 [ERROR] Erro ao listar planos: 2000
+2024-06-03 12:02:00 [ERROR] Recurso não encontrado
 ```
-
-## Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-### Padrões de Commit
-- `feat:` nova funcionalidade
-- `fix:` correção de bug
-- `docs:` documentação
-- `style:` formatação de código
-- `refactor:` refatoração
-- `test:` testes
-- `chore:` tarefas de build/configuração
-
-## Solução de Problemas
-
-### Erro: "Database file not found"
-```bash
-# Recriar o banco de dados
-npm run db:reset
-npm run seed
-```
-
-### Erro: "Port 3000 already in use"
-```bash
-# Usar porta diferente
-PORT=3001 npm run dev
-```
-
-### Erro: "Cannot find module"
-```bash
-# Reinstalar dependências
-rm -rf node_modules package-lock.json
-npm install
-```
-
-## Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## Contato
-
-Para dúvidas ou sugestões:
-- Email: suporte@operadora.com
-- GitHub Issues: [Link para o repositório]

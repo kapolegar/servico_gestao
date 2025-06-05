@@ -8,7 +8,7 @@ class Plano {
   }
 
   static create(nome, custoMensal, descricao) {
-    const codigo = Date.now(); // Simplificado para o exemplo
+    const codigo = Date.now(); 
     const data = new Date().toISOString().split('T')[0];
     return new Plano(codigo, nome, custoMensal, data, descricao);
   }

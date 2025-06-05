@@ -1,4 +1,3 @@
-// src/domain/repositories/IPlanoRepository.js
 class IPlanoRepository {
   async findAll() {
     throw new Error("Method 'findAll' must be implemented");
