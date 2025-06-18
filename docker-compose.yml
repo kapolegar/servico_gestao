@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  # RabbitMQ Message Broker
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - SERVICO_GESTAO_URL=http://servico-gestao:3001
+      - SERVICO_FATURAMENTO_URL=http://servico-faturamento:3002
+      - SERVICO_PLANOS_ATIVOS_URL=http://servico-planos-ativos:3003
+    depends_on:
+      - servico-gestao
+      - servico-faturamento
+      - servico-planos-ativos
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Serviço de Gestão
+  servico-gestao:
+    build:
+      context: ./servico-gestao
+      dockerfile: Dockerfile
+    container_name: servico-gestao
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - NODE_ENV=production
+      - DB_PATH=/app/database/sistema_planos.db
+      - RABBITMQ_URL=amqp://admin:admin123@rabbitmq:5672
+    volumes:
+      - gestao_data:/app/database
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Serviço de Faturamento
+  servico-faturamento:
+    build:
+      context: ./servico-faturamento
+      dockerfile: Dockerfile
+    container_name: servico-faturamento
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - NODE_ENV=production
+      - RABBITMQ_URL=amqp://admin:admin123@rabbitmq:5672
+    volumes:
+      - faturamento_data:/app/database
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Serviço de Planos Ativos
+  servico-planos-ativos:
+    build:
+      context: ./servico-planos-ativos
+      dockerfile: Dockerfile
+    container_name: servico-planos-ativos
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3003
+      - NODE_ENV=production
+      - SERVICO_GESTAO_URL=http://servico-gestao:3001
+      - RABBITMQ_URL=amqp://admin:admin123@rabbitmq:5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      servico-gestao:
+        condition: service_started
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
+  gestao_data:
+  faturamento_data:
+
+networks:
+  microservices-network:
+    driver: bridge
