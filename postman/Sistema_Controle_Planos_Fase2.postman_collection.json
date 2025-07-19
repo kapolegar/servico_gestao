@@ -1,0 +1,515 @@
+{
+  "info": {
+    "name": "Sistema Controle Planos - Fase 2",
+    "description": "Coleção completa para teste dos microsserviços na Fase 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "gateway_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "gestao_url", 
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "faturamento_url",
+      "value": "http://localhost:3002", 
+      "type": "string"
+    },
+    {
+      "key": "planos_ativos_url",
+      "value": "http://localhost:3003",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "API Gateway Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/health",
+              "host": ["{{gateway_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Services Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/health/services",
+              "host": ["{{gateway_url}}"],
+              "path": ["health", "services"]
+            }
+          }
+        },
+        {
+          "name": "Servico Gestao Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/health",
+              "host": ["{{gestao_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Servico Faturamento Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/health",
+              "host": ["{{faturamento_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Servico Planos Ativos Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{planos_ativos_url}}/health",
+              "host": ["{{planos_ativos_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gestão - Via Gateway",
+      "item": [
+        {
+          "name": "Listar Clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/clientes",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "clientes"]
+            }
+          }
+        },
+        {
+          "name": "Listar Planos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/planos",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "planos"]
+            }
+          }
+        },
+        {
+          "name": "Criar Assinatura",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCliente\": 1,\n  \"codigoPlano\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Custo Plano",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"custoMensal\": 59.99\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/gestao/planos/1",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "planos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Listar Todas Assinaturas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas/TODOS",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas", "TODOS"]
+            }
+          }
+        },
+        {
+          "name": "Listar Assinaturas Ativas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas/ATIVAS",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas", "ATIVAS"]
+            }
+          }
+        },
+        {
+          "name": "Listar Assinaturas Canceladas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas/CANCELADAS",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas", "CANCELADAS"]
+            }
+          }
+        },
+        {
+          "name": "Cancelar Assinatura",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas/1/cancelar",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas", "1", "cancelar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Faturamento - Via Gateway",
+      "item": [
+        {
+          "name": "Gerar Cobrança",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoAssinatura\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/faturamento/cobrancas",
+              "host": ["{{gateway_url}}"],
+              "path": ["faturamento", "cobrancas"]
+            }
+          }
+        },
+        {
+          "name": "Listar Cobranças por Assinatura",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/faturamento/cobrancas/assinatura/1",
+              "host": ["{{gateway_url}}"],
+              "path": ["faturamento", "cobrancas", "assinatura", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Planos Ativos - Via Gateway",
+      "item": [
+        {
+          "name": "Consultar Plano Ativo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/planos-ativos/cliente/1",
+              "host": ["{{gateway_url}}"],
+              "path": ["planos-ativos", "cliente", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gestão - Direto",
+      "item": [
+        {
+          "name": "Listar Clientes (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/clientes",
+              "host": ["{{gestao_url}}"],
+              "path": ["clientes"]
+            }
+          }
+        },
+        {
+          "name": "Listar Planos (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/planos",
+              "host": ["{{gestao_url}}"],
+              "path": ["planos"]
+            }
+          }
+        },
+        {
+          "name": "Criar Assinatura (Direto)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCliente\": 2,\n  \"codigoPlano\": 2\n}"
+            },
+            "url": {
+              "raw": "{{gestao_url}}/assinaturas",
+              "host": ["{{gestao_url}}"],
+              "path": ["assinaturas"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Custo Plano (Direto)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"custoMensal\": 79.99\n}"
+            },
+            "url": {
+              "raw": "{{gestao_url}}/planos/2",
+              "host": ["{{gestao_url}}"],
+              "path": ["planos", "2"]
+            }
+          }
+        },
+        {
+          "name": "Listar Todas Assinaturas (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/assinaturas/TODOS",
+              "host": ["{{gestao_url}}"],
+              "path": ["assinaturas", "TODOS"]
+            }
+          }
+        },
+        {
+          "name": "Listar Assinaturas Ativas (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/assinaturas/ATIVAS",
+              "host": ["{{gestao_url}}"],
+              "path": ["assinaturas", "ATIVAS"]
+            }
+          }
+        },
+        {
+          "name": "Listar Assinaturas Canceladas (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/assinaturas/CANCELADAS",
+              "host": ["{{gestao_url}}"],
+              "path": ["assinaturas", "CANCELADAS"]
+            }
+          }
+        },
+        {
+          "name": "Cancelar Assinatura (Direto)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{gestao_url}}/assinaturas/2/cancelar",
+              "host": ["{{gestao_url}}"],
+              "path": ["assinaturas", "2", "cancelar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Faturamento - Direto",
+      "item": [
+        {
+          "name": "Gerar Cobrança (Direto)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoAssinatura\": 2\n}"
+            },
+            "url": {
+              "raw": "{{faturamento_url}}/cobrancas",
+              "host": ["{{faturamento_url}}"],
+              "path": ["cobrancas"]
+            }
+          }
+        },
+        {
+          "name": "Listar Cobranças por Assinatura (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{faturamento_url}}/cobrancas/assinatura/2",
+              "host": ["{{faturamento_url}}"],
+              "path": ["cobrancas", "assinatura", "2"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Planos Ativos - Direto",
+      "item": [
+        {
+          "name": "Consultar Plano Ativo (Direto)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{planos_ativos_url}}/cliente/2",
+              "host": ["{{planos_ativos_url}}"],
+              "path": ["cliente", "2"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Testes de Integração",
+      "item": [
+        {
+          "name": "Teste: Criar Assinatura e Gerar Cobrança",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCliente\": 3,\n  \"codigoPlano\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas"]
+            }
+          }
+        },
+        {
+          "name": "Teste: Verificar Plano Ativo Após Criação",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/planos-ativos/cliente/3",
+              "host": ["{{gateway_url}}"],
+              "path": ["planos-ativos", "cliente", "3"]
+            }
+          }
+        },
+        {
+          "name": "Teste: Atualizar Preço e Verificar Impact",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"custoMensal\": 99.99\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/gestao/planos/1",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "planos", "1"]
+            }
+          }
+        },
+        {
+          "name": "Teste: Cancelar e Verificar Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/gestao/assinaturas/3/cancelar",
+              "host": ["{{gateway_url}}"],
+              "path": ["gestao", "assinaturas", "3", "cancelar"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

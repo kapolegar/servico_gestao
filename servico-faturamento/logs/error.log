@@ -1,0 +1,1 @@
+{"code":"SQLITE_CANTOPEN","errno":14,"level":"error","message":"Erro ao inicializar serviços: SQLITE_CANTOPEN: unable to open database file","stack":"Error: SQLITE_CANTOPEN: unable to open database file","timestamp":"2025-06-18T19:24:13.628Z"}

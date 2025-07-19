@@ -1,0 +1,4 @@
+{"code":"SQLITE_CANTOPEN","errno":14,"level":"error","message":"Erro ao inicializar serviços: SQLITE_CANTOPEN: unable to open database file","stack":"Error: SQLITE_CANTOPEN: unable to open database file","timestamp":"2025-06-18T19:24:13.628Z"}
+{"level":"info","message":"Continuando com configuração básica...","timestamp":"2025-06-18T19:24:13.629Z"}
+{"level":"info","message":"🚀 Serviço de Faturamento rodando na porta 3002 (modo básico)","timestamp":"2025-06-18T19:24:13.632Z"}
+{"level":"info","message":"📊 Health check disponível em: http://localhost:3002/health","timestamp":"2025-06-18T19:24:13.633Z"}

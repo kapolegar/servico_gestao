@@ -1,0 +1,7 @@
+{"level":"info","message":"API Gateway rodando na porta 3000","timestamp":"2025-06-19T17:26:10.882Z"}
+{"faturamento":{"path":"/faturamento","url":"http://localhost:3002"},"gestao":{"path":"/gestao","url":"http://localhost:3001"},"level":"info","message":"Serviços configurados:","planosativos":{"path":"/planosativos","url":"http://localhost:3003"},"timestamp":"2025-06-19T17:26:10.884Z"}
+{"level":"info","message":"API Gateway rodando na porta 3000","timestamp":"2025-06-19T17:39:18.865Z"}
+{"faturamento":{"path":"/faturamento","url":"http://localhost:3002"},"gestao":{"path":"/gestao","url":"http://localhost:3001"},"level":"info","message":"Serviços configurados:","planosativos":{"path":"/planosativos","url":"http://localhost:3003"},"timestamp":"2025-06-19T17:39:18.867Z"}
+{"ip":"::1","level":"info","message":"GET /health/services","timestamp":"2025-06-19T17:41:34.848Z","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"}
+{"ip":"::1","level":"info","message":"GET /favicon.ico","timestamp":"2025-06-19T17:41:35.340Z","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"}
+{"level":"warn","message":"Rota não encontrada: GET /favicon.ico","timestamp":"2025-06-19T17:41:35.342Z"}
